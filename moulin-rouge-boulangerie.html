@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Boulangerie du Moulin Rouge — Saint-Étienne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --crimson: #8B1A1A;
+    --crimson-dark: #6B1212;
+    --crimson-light: #C0392B;
+    --cream: #FAF6F0;
+    --cream-warm: #F5EDE0;
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --charcoal: #1C1C1C;
+    --charcoal-soft: #3A3A3A;
+    --mid: #7A6A5A;
+    --border: #E8DDD0;
+    --white: #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 24px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.4s, box-shadow 0.4s;
+  }
+  nav.scrolled {
+    background: var(--white);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  }
+  .nav-logo {
+    display: flex; flex-direction: column;
+    line-height: 1.1;
+  }
+  .nav-logo .logo-top {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .nav-logo .logo-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--white);
+    transition: color 0.4s;
+  }
+  nav.scrolled .nav-logo .logo-main { color: var(--crimson); }
+
+  .nav-links {
+    display: none;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  nav.scrolled .nav-links a { color: var(--charcoal-soft); }
+  .nav-links a:hover { color: var(--gold); }
+  nav.scrolled .nav-links a:hover { color: var(--crimson); }
+
+  .nav-cta {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.5);
+    padding: 9px 18px;
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .nav-cta:hover { background: var(--white); color: var(--crimson); border-color: var(--white); }
+  nav.scrolled .nav-cta { border-color: var(--crimson); color: var(--crimson); }
+  nav.scrolled .nav-cta:hover { background: var(--crimson); color: var(--white); }
+
+  .hamburger {
+    display: flex; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px; background: none; border: none;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--white); transition: background 0.4s;
+    border-radius: 2px;
+  }
+  nav.scrolled .hamburger span { background: var(--charcoal); }
+
+  @media (min-width: 768px) {
+    .nav-links { display: flex; }
+    .hamburger { display: none; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex; align-items: center;
+    overflow: hidden;
+    background: var(--crimson-dark);
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1600&q=80') center/cover no-repeat;
+    opacity: 0.35;
+    transform: scale(1.05);
+    transition: transform 8s ease;
+  }
+  .hero-bg.loaded { transform: scale(1); }
+
+  /* Windmill SVG decoration */
+  .windmill-deco {
+    position: absolute;
+    right: -60px; top: 50%;
+    transform: translateY(-55%);
+    width: min(480px, 90vw);
+    opacity: 0.07;
+    pointer-events: none;
+    animation: spin-slow 60s linear infinite;
+  }
+  @keyframes spin-slow { to { transform: translateY(-55%) rotate(360deg); } }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 700px;
+    padding: 120px 24px 80px;
+  }
+  @media (min-width: 768px) { .hero-content { padding: 140px 64px 80px; } }
+  @media (min-width: 1200px) { .hero-content { padding: 160px 100px 100px; } }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 24px;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 32px; height: 1px; background: var(--gold);
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 8vw, 88px);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-style: italic;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 32px;
+  }
+
+  .hero-desc {
+    font-size: 15px; line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    max-width: 480px; margin-bottom: 44px;
+  }
+
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--charcoal);
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 16px 32px; text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .btn-ghost {
+    display: inline-block;
+    color: var(--white);
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 16px 32px; text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.4);
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.7); }
+
+  .hero-badge {
+    position: absolute;
+    bottom: 48px; right: 24px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; gap: 2px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .hero-badge .badge-stars { font-size: 11px; letter-spacing: 1px; color: var(--crimson-dark); }
+  .hero-badge .badge-text { font-size: 8px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--crimson-dark); padding: 0 8px; }
+  .hero-badge .badge-num { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--crimson-dark); }
+  @media (min-width: 768px) { .hero-badge { right: 64px; width: 118px; height: 118px; } }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 80px 24px; }
+  @media (min-width: 768px) { section { padding: 100px 48px; } }
+  @media (min-width: 1200px) { section { padding: 120px 80px; } }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--charcoal);
+    margin-bottom: 20px;
+  }
+  .section-title em { font-style: italic; color: var(--crimson); }
+
+  .section-body {
+    font-size: 15px; line-height: 1.8;
+    color: var(--mid); max-width: 560px;
+  }
+
+  /* ── ABOUT ── */
+  .about { background: var(--white); }
+  .about-grid {
+    display: grid; gap: 60px; align-items: center;
+  }
+  @media (min-width: 860px) {
+    .about-grid { grid-template-columns: 1fr 1fr; gap: 80px; }
+  }
+
+  .about-img-wrap {
+    position: relative;
+  }
+  .about-img-main {
+    width: 100%; aspect-ratio: 4/5;
+    object-fit: cover; border-radius: 4px;
+    display: block;
+  }
+  .about-img-accent {
+    position: absolute;
+    bottom: -28px; right: -24px;
+    width: 48%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 6px solid var(--white);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  }
+
+  .about-content { padding-bottom: 28px; }
+
+  .about-stats {
+    display: flex; gap: 32px; margin-top: 40px;
+    padding-top: 32px; border-top: 1px solid var(--border);
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px; font-weight: 700;
+    color: var(--crimson); line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mid); margin-top: 4px;
+  }
+
+  /* ── PRODUCTS ── */
+  .products { background: var(--cream); }
+  .products-header {
+    display: flex; flex-wrap: wrap;
+    justify-content: space-between; align-items: flex-end;
+    gap: 24px; margin-bottom: 56px;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  @media (min-width: 600px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 900px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .product-card {
+    background: var(--white);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  }
+  .product-card.featured { grid-column: span 1; }
+  @media (min-width: 900px) { .product-card.featured { grid-column: span 2; } }
+
+  .product-img {
+    width: 100%; aspect-ratio: 4/3;
+    object-fit: cover; display: block;
+  }
+  .product-card.featured .product-img { aspect-ratio: 16/9; }
+
+  .product-info { padding: 24px; }
+  .product-tag {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold); display: block; margin-bottom: 8px;
+  }
+  .product-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--charcoal); margin-bottom: 8px;
+  }
+  .product-card.featured .product-name { font-size: 26px; }
+  .product-desc {
+    font-size: 13px; line-height: 1.65;
+    color: var(--mid);
+  }
+
+  /* ── GALLERY ── */
+  .gallery { background: var(--crimson-dark); padding-top: 0; padding-bottom: 0; }
+  .gallery-title-row {
+    padding: 80px 24px 48px;
+    text-align: center;
+  }
+  @media (min-width: 768px) { .gallery-title-row { padding: 100px 48px 48px; } }
+  .gallery-title-row .section-title { color: var(--white); }
+  .gallery-title-row .section-body { color: rgba(255,255,255,0.6); margin: 0 auto; text-align: center; }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+  }
+  @media (min-width: 600px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 900px) { .gallery-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .gallery-item {
+    position: relative; overflow: hidden;
+    aspect-ratio: 1;
+    cursor: pointer;
+  }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.5s;
+  }
+  .gallery-item:hover img { transform: scale(1.06); }
+  .gallery-item-overlay {
+    position: absolute; inset: 0;
+    background: rgba(139,26,26,0.0);
+    transition: background 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gallery-item:hover .gallery-item-overlay { background: rgba(139,26,26,0.45); }
+  .gallery-item-overlay span {
+    font-size: 22px; opacity: 0; transform: scale(0.8);
+    transition: all 0.3s;
+  }
+  .gallery-item:hover .gallery-item-overlay span { opacity: 1; transform: scale(1); }
+
+  /* ── REVIEWS ── */
+  .reviews { background: var(--cream-warm); }
+  .reviews-header { text-align: center; margin-bottom: 56px; }
+  .reviews-header .section-body { margin: 0 auto; text-align: center; }
+
+  .rating-summary {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; margin-bottom: 12px;
+  }
+  .rating-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px; font-weight: 700; color: var(--crimson);
+    line-height: 1;
+  }
+  .rating-details { display: flex; flex-direction: column; gap: 4px; }
+  .stars { font-size: 18px; color: var(--gold); letter-spacing: 2px; }
+  .rating-count { font-size: 12px; color: var(--mid); }
+
+  .reviews-grid {
+    display: grid; gap: 20px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) { .reviews-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 900px) { .reviews-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .review-card {
+    background: var(--white);
+    padding: 28px;
+    border-radius: 4px;
+    position: relative;
+    transition: box-shadow 0.3s;
+  }
+  .review-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .review-card::before {
+    content: '\201C';
+    position: absolute; top: 16px; right: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 80px; color: var(--crimson); opacity: 0.08;
+    line-height: 1; pointer-events: none;
+  }
+
+  .review-stars { font-size: 13px; color: var(--gold); margin-bottom: 14px; }
+  .review-text {
+    font-size: 14px; line-height: 1.75;
+    color: var(--charcoal-soft); margin-bottom: 20px;
+    font-style: italic;
+  }
+  .reviewer { display: flex; align-items: center; gap: 12px; }
+  .reviewer-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--crimson); display: flex;
+    align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; color: var(--white); font-weight: 700;
+    flex-shrink: 0;
+  }
+  .reviewer-name { font-size: 13px; font-weight: 600; color: var(--charcoal); }
+  .reviewer-via { font-size: 11px; color: var(--mid); }
+
+  /* ── HOURS ── */
+  .hours { background: var(--white); }
+  .hours-grid {
+    display: grid; gap: 48px; align-items: center;
+  }
+  @media (min-width: 768px) { .hours-grid { grid-template-columns: 1fr 1fr; } }
+
+  .hours-table { width: 100%; border-collapse: collapse; }
+  .hours-table tr { border-bottom: 1px solid var(--border); }
+  .hours-table tr:last-child { border-bottom: none; }
+  .hours-table td {
+    padding: 14px 0;
+    font-size: 14px;
+  }
+  .hours-table td:first-child { color: var(--mid); font-weight: 500; }
+  .hours-table td:last-child { text-align: right; font-weight: 600; color: var(--charcoal); }
+  .hours-table .today td { color: var(--crimson); }
+  .hours-table .today td:first-child { font-weight: 700; }
+
+  .hours-note {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: var(--cream-warm);
+    border-left: 3px solid var(--gold);
+    font-size: 13px; color: var(--mid); line-height: 1.6;
+  }
+
+  /* ── MAP / CONTACT ── */
+  .contact { background: var(--charcoal); }
+  .contact .section-title { color: var(--white); }
+  .contact-grid {
+    display: grid; gap: 56px; align-items: start;
+  }
+  @media (min-width: 768px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+
+  .contact-info {}
+  .contact-block {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .contact-block:last-child { border-bottom: none; margin-bottom: 0; }
+  .contact-block-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 10px;
+  }
+  .contact-block-value {
+    font-size: 16px; color: rgba(255,255,255,0.85); line-height: 1.5;
+  }
+  .contact-block-value a { color: rgba(255,255,255,0.85); text-decoration: none; }
+  .contact-block-value a:hover { color: var(--gold); }
+
+  .map-embed {
+    border-radius: 4px; overflow: hidden;
+    aspect-ratio: 4/3;
+    background: #2a2a2a;
+    position: relative;
+  }
+  .map-embed iframe {
+    width: 100%; height: 100%;
+    border: 0; display: block;
+    filter: grayscale(20%);
+  }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: var(--crimson);
+    text-align: center;
+    padding: 80px 24px;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&q=60') center/cover;
+    opacity: 0.12;
+  }
+  .cta-section .section-title { color: var(--white); position: relative; }
+  .cta-section .section-body {
+    color: rgba(255,255,255,0.7); margin: 0 auto 40px;
+    text-align: center; position: relative;
+  }
+  .cta-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; position: relative; }
+  .btn-white {
+    display: inline-block;
+    background: var(--white); color: var(--crimson);
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 16px 36px; text-decoration: none; border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .btn-white:hover { background: var(--gold); color: var(--white); }
+  .btn-ghost-white {
+    display: inline-block;
+    color: var(--white); border: 1.5px solid rgba(255,255,255,0.5);
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 16px 36px; text-decoration: none; border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .btn-ghost-white:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.8); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #111;
+    padding: 56px 24px 32px;
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+  }
+  .footer-top {
+    display: grid; gap: 40px;
+    grid-template-columns: 1fr;
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  @media (min-width: 640px) { .footer-top { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 900px) { .footer-top { grid-template-columns: 2fr 1fr 1fr; } }
+
+  .footer-brand .logo-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--white); margin-bottom: 12px;
+  }
+  .footer-brand p {
+    font-size: 13px; line-height: 1.7;
+    color: rgba(255,255,255,0.45); max-width: 280px;
+  }
+
+  .footer-col-title {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a {
+    font-size: 13px; color: rgba(255,255,255,0.5);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-col ul li a:hover { color: var(--white); }
+
+  .footer-bottom {
+    display: flex; flex-wrap: wrap; justify-content: space-between;
+    align-items: center; gap: 12px;
+  }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
+  .footer-windmill {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px; font-style: italic;
+    color: rgba(255,255,255,0.2);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 48px; height: 2px;
+    background: var(--gold); margin: 24px 0;
+  }
+  .divider.center { margin: 24px auto; }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .fade-in-delay-1 { transition-delay: 0.1s; }
+  .fade-in-delay-2 { transition-delay: 0.2s; }
+  .fade-in-delay-3 { transition-delay: 0.3s; }
+  .fade-in-delay-4 { transition-delay: 0.4s; }
+
+  /* ── MOBILE MENU ── */
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 90;
+    background: var(--crimson-dark);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 32px;
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+  }
+  .mobile-menu.open { transform: translateX(0); }
+  .mobile-menu a {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700;
+    color: var(--white); text-decoration: none;
+    opacity: 0.85;
+  }
+  .mobile-menu a:hover { opacity: 1; color: var(--gold-light); }
+  .mobile-close {
+    position: absolute; top: 20px; right: 24px;
+    font-size: 28px; color: var(--white);
+    background: none; border: none; cursor: pointer;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobileMenu()">✕</button>
+  <a href="#about" onclick="closeMobileMenu()">Notre Histoire</a>
+  <a href="#products" onclick="closeMobileMenu()">Nos Créations</a>
+  <a href="#gallery" onclick="closeMobileMenu()">Galerie</a>
+  <a href="#reviews" onclick="closeMobileMenu()">Avis</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- NAVIGATION -->
+<nav id="mainNav">
+  <div class="nav-logo">
+    <span class="logo-top">Artisan Boulanger</span>
+    <span class="logo-main">Le Moulin Rouge</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">Notre Histoire</a></li>
+    <li><a href="#products">Nos Créations</a></li>
+    <li><a href="#gallery">Galerie</a></li>
+    <li><a href="#reviews">Avis</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="tel:0952726194" class="nav-cta">Nous Appeler</a>
+  <button class="hamburger" onclick="openMobileMenu()" aria-label="Ouvrir le menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+
+  <!-- Windmill SVG -->
+  <svg class="windmill-deco" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="150" cy="150" r="12" fill="white"/>
+    <rect x="144" y="20" width="12" height="260" rx="6" fill="white" transform="rotate(0 150 150)"/>
+    <rect x="144" y="20" width="12" height="260" rx="6" fill="white" transform="rotate(90 150 150)"/>
+    <rect x="144" y="20" width="12" height="260" rx="6" fill="white" transform="rotate(45 150 150)"/>
+    <rect x="144" y="20" width="12" height="260" rx="6" fill="white" transform="rotate(135 150 150)"/>
+    <polygon points="150,20 110,90 150,140 190,90" fill="white" transform="rotate(0 150 150)"/>
+    <polygon points="150,20 110,90 150,140 190,90" fill="white" transform="rotate(90 150 150)"/>
+    <polygon points="150,20 110,90 150,140 190,90" fill="white" transform="rotate(180 150 150)"/>
+    <polygon points="150,20 110,90 150,140 190,90" fill="white" transform="rotate(270 150 150)"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Saint-Étienne depuis toujours</div>
+    <h1>La <em>Boulangerie</em><br>du Moulin Rouge</h1>
+    <p class="hero-sub">Artisan boulanger-pâtissier</p>
+    <p class="hero-desc">Chaque matin, nous pétrissons, façonnons et cuisons avec passion pour vous offrir le meilleur du pain artisanal et des pâtisseries maison. Un savoir-faire traditionnel au cœur de Saint-Étienne.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">Découvrir nos créations</a>
+      <a href="#contact" class="btn-ghost">Nous trouver</a>
+    </div>
+  </div>
+
+  <div class="hero-badge">
+    <span class="badge-stars">★★★★★</span>
+    <span class="badge-num">3.8</span>
+    <span class="badge-text">Note Google</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap fade-in">
+        <img class="about-img-main"
+          src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGTbTJJhSGUQNBUrZEWh62ol24zreSxZRO9tX1YA9OnniS_LZBj_Vr_9bAI6bcOUL65e2_aQvN1XgbQDnGKUHjrg_cyo6c6D4wD4KkUvz0tDv4BAkITU_KaHEr3FLmhwHK7W-LY=s1360-w1360-h1020-rw"
+          alt="Boulanger artisan au four"
+          loading="lazy">
+        <img class="about-img-accent"
+          src="https://www.myboulange.fr/s3/320/google/143960.jpeg"
+          alt="Viennoiseries dorées"
+          loading="lazy">
+      </div>
+      <div class="about-content fade-in fade-in-delay-1">
+        <span class="section-label">Notre Histoire</span>
+        <h2 class="section-title">L'art du pain,<br><em>avec amour</em></h2>
+        <div class="divider"></div>
+        <p class="section-body">
+          La Boulangerie du Moulin Rouge, c'est bien plus qu'une boulangerie : c'est un lieu de vie où tradition rime avec générosité. Notre chef est reconnu pour ses gâteaux aux fruits savoureux et ses recettes maison élaborées avec soin.
+        </p>
+        <p class="section-body" style="margin-top: 16px;">
+          Un personnel chaleureux vous accueille tout au long de l'année. Ici, chaque produit raconte une histoire — celle d'un artisan qui aime son métier et ses clients.
+        </p>
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Artisanal</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">7j/7</div>
+            <div class="stat-label">Frais chaque jour</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">128</div>
+            <div class="stat-label">Avis clients</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="container">
+    <div class="products-header">
+      <div class="fade-in">
+        <span class="section-label">Nos Spécialités</span>
+        <h2 class="section-title">Nos <em>meilleures</em> créations</h2>
+      </div>
+      <p class="section-body fade-in fade-in-delay-1" style="max-width: 320px;">
+        Du pain de campagne croustillant aux pâtisseries raffinées, tout est fait sur place chaque matin.
+      </p>
+    </div>
+
+    <div class="products-grid">
+      <div class="product-card featured fade-in">
+        <img class="product-img"
+          src="https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/500708837_672333378979268_3954433872918402968_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=zt1XPLEQ0TAQ7kNvwHUTHnB&_nc_oc=AdpVQrZK4z5SGRFtqIHCPnBob2Lb8gMKEPlkcxH3BRHGetktKB3xQ8QS5Z5h-_ZxVVE&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=weS4D8Ztdrd2UG8OABf8XA&_nc_ss=7b289&oh=00_Af9QrSHuMc760O6hjQ893blxp9NBB_SjxY6qiU3lnr9zzQ&oe=6A2F2AB2"
+          alt="Pain artisanal" loading="lazy">
+        <div class="product-info">
+          <span class="product-tag">Notre Signature</span>
+          <div class="product-name">Pains Artisanaux</div>
+          <p class="product-desc">Baguettes tradition, pains de campagne, pains aux céréales — façonnés à la main, cuits au four à sole pour une croûte dorée et une mie alvéolée incomparable.</p>
+        </div>
+      </div>
+
+      <div class="product-card fade-in fade-in-delay-1">
+        <img class="product-img"
+          src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAErwRvoACSVxjH3-nTIfQFF_EnOJPUOJKv0QQ13t76gMirqRZJ6ZoaznyBA5Xsw8sF8v1iheqWV8zQojcTUtMvxr-Y7sBlId182F2v3h7a9hPQsfy2JJ4NZ7QEyO_Qf7kP2tOIWFw=s1360-w1360-h1020-rw"
+          alt="Viennoiseries" loading="lazy">
+        <div class="product-info">
+          <span class="product-tag">Viennoiseries</span>
+          <div class="product-name">Croissants & Brioches</div>
+          <p class="product-desc">Feuilletage délicat, beurre de qualité, dorure parfaite. Nos croissants et pains au chocolat sont cuits frais le matin.</p>
+        </div>
+      </div>
+
+      <div class="product-card fade-in fade-in-delay-2">
+        <img class="product-img"
+          src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEJ30oW1oMsP8748vD4dYHta0ZOENuKIH2BwwreVHL4UPpcFMHpvh-d0XqnBHkmGFTpvZQjLQ2zUjVQ4LDj5dOeVYRBEJUmWc27vuTwlc-PrST4zn5yeVkDTCo3qz7C5GmNiSb2AQ=s1360-w1360-h1020-rw"
+          alt="Gâteaux" loading="lazy">
+        <div class="product-info">
+          <span class="product-tag">Pâtisseries</span>
+          <div class="product-name">Gâteaux & Entremets</div>
+          <p class="product-desc">Des créations sur mesure pour tous vos événements. Gâteaux aux fruits, entremets raffinés, petits fours pour des occasions inoubliables.</p>
+        </div>
+      </div>
+
+      <div class="product-card fade-in fade-in-delay-1">
+        <img class="product-img"
+          src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEOXNQE-d-XzmlboEeBZ5e9DrpGlRDuj95E0Cs4e_Oxq928qfNFBzimOZyIIOZZ--7CEhBZI3Rq3On2oqQWKClA6N2l8fm8F09yvWM0yLzGCsk4C7PPYw4gpdfWjUBUqi2A1CUk=s1360-w1360-h1020-rw"
+          alt="Sandwichs" loading="lazy">
+        <div class="product-info">
+          <span class="product-tag">Salé</span>
+          <div class="product-name">Sandwichs & Quiches</div>
+          <p class="product-desc">Pizzas maison, quiches savoureuses et sandwichs généreux préparés avec des produits frais. Le déjeuner idéal pour les Stéphanois pressés.</p>
+        </div>
+      </div>
+
+      <div class="product-card fade-in fade-in-delay-2">
+        <img class="product-img"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKvDqLWKTfqxeVR_xt0bcb5nRt_Ged1kPZAA&s"
+          alt="Chocolats" loading="lazy">
+        <div class="product-info">
+          <span class="product-tag">Douceurs</span>
+          <div class="product-name">Chocolats & Glaces</div>
+          <p class="product-desc">Une sélection de chocolats fins, de confiseries artisanales et de glaces maison pour les petites et grandes gourmandises.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="gallery-title-row">
+    <div class="container" style="text-align:center;">
+      <span class="section-label" style="justify-content:center;">Notre Univers</span>
+      <h2 class="section-title" style="color:var(--white);">L'atmosphère du <em style="color:var(--gold-light)">Moulin Rouge</em></h2>
+      <div class="divider center"></div>
+      <p class="section-body" style="color:rgba(255,255,255,0.6);margin:0 auto;text-align:center;">Un espace chaleureux où les odeurs de pain chaud et de viennoiseries fraîches vous accueillent dès l'aurore.</p>
+    </div>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHJFLv2ouIuVnp9TdxEHNCjXAhG8Sovzgey7gIL2QYXAQ_qK1e58QsFYvF-ef4tHmI7XjHUfAVxsreXkqNAUL_p2u4H_4Tk_Jv1DtC5wN_7-qwJSyojU4kzUGJgSCJJ3viSPSUMQQ=s1360-w1360-h1020-rw" alt="Pain artisanal" loading="lazy">
+      <div class="gallery-item-overlay"><span>🍞</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEgtQAm9D4uhERMqSEweuOgyZe1EYHlpUx_lkzkBAnF8MWa-Gl_UMOY7QFfjzBu7w7mwVMtiNf8NF_ozDqjmneu-UA-peplxJeUYsPwK4hAoy9hlqx69cMBbC0ZaYggADFjMaDe=s1360-w1360-h1020-rw" loading="lazy">
+      <div class="gallery-item-overlay"><span>🥐</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFJcqznAY2xV1K1XxdyvCbCQ1O4g1M97T7i39fOt_MKMOEEpZGs3aVMa2UzYYz5_54oU3ShFhoia8ADa4vOyVCYsgHc0_QEAmo_IPl8C_3QkysBkHDuUIR-65rH-IiPApkq_PUX=s1360-w1360-h1020-rw" alt="Pâtisseries" loading="lazy">
+      <div class="gallery-item-overlay"><span>🎂</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAH2eyVNNnw0E3L5trb9c9EkjhH4jzCd7XVhOKmrdM0pUg4TsZHRAWIGuNOdWkEH0mFxCEc882on9XHLpax6-8_fZmwSvL1pfy_yQ1mU6AjpfaRZ_mRuJtK_yVCr7IiPE0720IE=s1360-w1360-h1020-rw" alt="Pain chaud" loading="lazy">
+      <div class="gallery-item-overlay"><span>🔥</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGcnRiTGdc3V_i6JYP96wm3ub9cSNM3hbkoue-m7ZkQ6jF-Ai7QmodQLJ9fb7SSpcFmQyLGXEMP71vRdvqDbQvz1ZaXlSCdhJWjsuLG3cF5Ga5LWuxmFIM239utk1XCFe9dRw8d=s1360-w1360-h1020-rw" alt="Chocolat" loading="lazy">
+      <div class="gallery-item-overlay"><span>🍫</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFdOPTYUq7UhkfniOQqlnBCDW_u2YV_fRVH0jYsc7XqHeD9DakF24R8GHqceHxHqZNiCfwVZDeg6agGDWeuWhHJM-dKsO72s7tVs5mE6abC74cir7S6lS6O2UZNuWMBodeaXyE=s1360-w1360-h1020-rw" alt="Viennoiseries" loading="lazy">
+      <div class="gallery-item-overlay"><span>☕</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGQj9u6AWunP0DMwgd0TRrSGDpT9KN5n4eGjuHbHZwAKZqTphOdzhfLFgNKcPcKCLVKsXHxranjMXNOJEHjhiQuQUjmjmD8hECuTw8pJsirPNdqKCbTIOPWzbYvYJq6YNgFqeW4=s1360-w1360-h1020-rw" alt="Boulanger" loading="lazy">
+      <div class="gallery-item-overlay"><span>👨‍🍳</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEAnONq9AySiZ3CEioZTBf5iAZ72eirFF1hgAgnzsA-kScJhIhV-TG6PV_3msSsPx3b37sA_xLZhmKOkZtPx4b2i6hPm4HvsAsQE1rXOaXLBmalQatxkF2AODSbvf0muk_YDEo3=s1360-w1360-h1020-rw" alt="Macarons" loading="lazy">
+      <div class="gallery-item-overlay"><span>🌟</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="container">
+    <div class="reviews-header fade-in">
+      <span class="section-label" style="justify-content:center;">Avis Clients</span>
+      <h2 class="section-title">Ce que disent <em>nos clients</em></h2>
+      <div class="divider center"></div>
+      <div class="rating-summary">
+        <div class="rating-big">3.8</div>
+        <div class="rating-details">
+          <div class="stars">★★★★</div>
+          <div class="rating-count">128 avis Google</div>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card fade-in">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Une excellente boulangerie, pâtisserie et des chocolats fins et délicieux ! Une maison aux produits excellents ! Je vous recommande, vous allez vous régaler ! »</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">L</div>
+          <div>
+            <div class="reviewer-name">Laurence Catinon</div>
+            <div class="reviewer-via">Google Maps</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card fade-in fade-in-delay-1">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Avait fait un gâteau mouton cake en forme de chou pour les 70 ans de maman, super bon ! Je recommande vraiment. »</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">A</div>
+          <div>
+            <div class="reviewer-name">Alexandra Bouandes</div>
+            <div class="reviewer-via">Google Maps</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card fade-in fade-in-delay-2">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Un accueil vraiment chaleureux, j'y suis passé tardivement il n'y avait plus de sandwich à mon goût et on m'a gentiment proposé d'en préparer un. Délicieux ! »</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">M</div>
+          <div>
+            <div class="reviewer-name">Mekem Mekemsi</div>
+            <div class="reviewer-via">Google Maps</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card fade-in fade-in-delay-1">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Très beau et grand choix de produits. J'ai trouvé une variété et une originalité dans le domaine des viennoiseries. Des femmes au service ce jour-là, particulièrement sympathiques et serviables. »</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">S</div>
+          <div>
+            <div class="reviewer-name">Sandrine Coulon</div>
+            <div class="reviewer-via">Google Maps</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card fade-in fade-in-delay-2">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Pause bien agréable à renouveler. Première fois que je venais et sûrement pas la dernière. Un vendeur qui transpire la joie de vivre, son sourire contagieux ! »</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">C</div>
+          <div>
+            <div class="reviewer-name">Les Certs Cielo</div>
+            <div class="reviewer-via">Google Maps</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card fade-in fade-in-delay-3">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Très bonne boulangerie, la patronne malgré sa maladie est toujours courageuse et présente pour tous ces clients qui cessent de venir. Chapeau ! »</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">P</div>
+          <div>
+            <div class="reviewer-name">Patecia</div>
+            <div class="reviewer-via">Google Maps</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS -->
+<section class="hours" id="hours">
+  <div class="container">
+    <div class="hours-grid">
+      <div class="fade-in">
+        <span class="section-label">Horaires</span>
+        <h2 class="section-title">Quand nous <em>retrouver</em></h2>
+        <div class="divider"></div>
+        <p class="section-body">Fraîcheur garantie chaque jour : nos équipes commencent avant l'aube pour que votre pain soit prêt dès l'ouverture.</p>
+        <div class="hours-note" style="margin-top: 24px;">
+          📍 Commandes de gâteaux sur mesure pour mariages, anniversaires et événements — contactez-nous à l'avance.
+        </div>
+      </div>
+      <div class="fade-in fade-in-delay-1">
+        <table class="hours-table">
+          <tbody>
+            <tr><td>Lundi</td><td>06:30 – 19:30</td></tr>
+            <tr><td>Mardi</td><td>06:30 – 19:30</td></tr>
+            <tr class="today"><td>Mercredi</td><td>06:30 – 19:30</td></tr>
+            <tr><td>Jeudi</td><td>06:30 – 19:30</td></tr>
+            <tr><td>Vendredi</td><td>06:30 – 19:30</td></tr>
+            <tr><td>Samedi</td><td>06:45 – 13:30</td></tr>
+            <tr><td>Dimanche</td><td>06:30 – 19:30</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div style="margin-bottom: 56px;" class="fade-in">
+      <span class="section-label" style="color:var(--gold)">Nous Trouver</span>
+      <h2 class="section-title" style="color:var(--white);">Venez nous <em style="color:var(--gold-light)">rendre visite</em></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info fade-in">
+        <div class="contact-block">
+          <div class="contact-block-label">Adresse</div>
+          <div class="contact-block-value">116 Rue Croset Boussignault<br>42100 Saint-Étienne</div>
+        </div>
+        <div class="contact-block">
+          <div class="contact-block-label">Téléphone</div>
+          <div class="contact-block-value">
+            <a href="tel:0952726194">09 52 72 61 94</a>
+          </div>
+        </div>
+        <div class="contact-block">
+          <div class="contact-block-label">Zone de livraison</div>
+          <div class="contact-block-value">Saint-Étienne et environs</div>
+        </div>
+        <div class="contact-block">
+          <div class="contact-block-label">Nos spécialités</div>
+          <div class="contact-block-value" style="font-size:14px;line-height:1.8;">
+            Gâteaux sur mesure · Sandwichs · Pains artisanaux<br>
+            Pizzas maison · Viennoiseries · Chocolats fins · Glaces
+          </div>
+        </div>
+      </div>
+      <div class="map-embed fade-in fade-in-delay-1">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2780.3!2d4.387!3d45.4397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f5aa5b8a12345%3A0x0!2s116+Rue+Croset+Boussignault%2C+42100+Saint-%C3%89tienne!5e0!3m2!1sfr!2sfr!4v1700000000000"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Carte La Boulangerie du Moulin Rouge">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <span class="section-label" style="justify-content:center;color:rgba(255,255,255,0.6)">Passez nous voir</span>
+    <h2 class="section-title" style="color:var(--white);margin-bottom:16px;">Commandez votre<br><em style="color:var(--gold-light)">gâteau sur mesure</em></h2>
+    <div class="divider center" style="background:rgba(255,255,255,0.3)"></div>
+    <p class="section-body">Anniversaire, mariage, baptême... Notre chef crée des gâteaux personnalisés pour tous vos moments précieux. Contactez-nous pour en discuter.</p>
+    <div class="cta-actions" style="margin-top: 40px;">
+      <a href="tel:0952726194" class="btn-white">📞 09 52 72 61 94</a>
+      <a href="#hours" class="btn-ghost-white">Voir nos horaires</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-main">La Boulangerie du Moulin Rouge</div>
+        <p>Artisan boulanger-pâtissier au cœur de Saint-Étienne. Pain frais, viennoiseries maison et pâtisseries de caractère, façonnés avec amour depuis le premier jour.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Navigation</div>
+        <ul>
+          <li><a href="#about">Notre histoire</a></li>
+          <li><a href="#products">Nos créations</a></li>
+          <li><a href="#gallery">Galerie</a></li>
+          <li><a href="#reviews">Avis clients</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Contact</div>
+        <ul>
+          <li><a href="tel:0952726194">09 52 72 61 94</a></li>
+          <li><a href="#">116 Rue Croset Boussignault</a></li>
+          <li><a href="#">42100 Saint-Étienne</a></li>
+          <li><a href="#hours">Voir les horaires</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 La Boulangerie du Moulin Rouge — Saint-Étienne</div>
+      <div class="footer-windmill">Fait avec ♥ et de la farine</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Hero bg animation
+  document.getElementById('heroBg').classList.add('loaded');
+
+  // Mobile menu
+  function openMobileMenu() {
+    document.getElementById('mobileMenu').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Highlight today
+  const days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  const today = days[new Date().getDay()];
+  document.querySelectorAll('.hours-table tr td:first-child').forEach(td => {
+    if (td.textContent.trim() === today) {
+      td.parentElement.classList.add('today');
+    } else {
+      td.parentElement.classList.remove('today');
+    }
+  });
+</script>
+</body>
+</html>
